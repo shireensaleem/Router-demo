@@ -1,23 +1,43 @@
-import logo from './logo.svg';
+
+import { db, firebase1 } from './firebase/config';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 import './App.css';
 
+
 function App() {
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <button onClick={()=>{
+      
+const auth = getAuth();
+signInWithEmailAndPassword(auth, 'shireensalee08@gmail.com', '123445')
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+
+    db.collection('users').get().then(snapshot=>{
+      snapshot.forEach((obj=>{
+       console.log(obj.data());
+      }))
+       });
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
+
+        
+
+
+
+      
+     }}>Click me</button>
+     
     </div>
   );
 }
